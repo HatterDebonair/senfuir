@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
-
 /* ============================================================
    S'ENFUIR — CHUB PROFILE  ·  "THE ARCHIVE" NOIR SKIN
+   ------------------------------------------------------------
+   NOTE: Chub's sanitizer STRIPS @import — this CSS must be
+   pasted INLINE inside the snippet's <style> block. No @import
+   lines anywhere (fonts use system fallbacks).
    ------------------------------------------------------------
    ███ CONTROL PANEL ███
    Everything you'd ever edit is in this :root block.
@@ -311,21 +313,23 @@ body::after{
 /* ============================================================
    AUDIO LOG — no-JS tape deck (native players, styled dark)
    ============================================================ */
-/* collapsible wrapper — <details> based, no JS */
+/* collapsible wrapper — hover to expand (Chub strips <summary>,
+   so no click toggle; the whole box stays open while hovered) */
 .sf-deckbox{ margin:0; }
-.sf-deckbox summary{ list-style:none; cursor:pointer; }
-.sf-deckbox summary::-webkit-details-marker{ display:none; }
+.sf-deckbox .sf-label{ cursor:default; }
 .sf-deck-ind{
   font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
   text-transform:uppercase; color:var(--steel);
   border:1px solid var(--hair); padding:3px 8px; white-space:nowrap;
   transition:.18s;
 }
-.sf-deck-ind::after{ content:"EXPAND +"; }
-.sf-deckbox[open] .sf-deck-ind::after{ content:"MINIMIZE \2212"; }
-.sf-deckbox summary:hover .sf-deck-ind{ color:var(--ink); border-color:var(--steel); }
+.sf-deck-ind::after{ content:"HOVER TO EXPAND +"; }
+.sf-deckbox:hover .sf-deck-ind::after{ content:"OPEN \2212"; }
+.sf-deckbox:hover .sf-deck-ind{ color:var(--ink); border-color:var(--steel); }
 
-.sf-deck{ display:flex; flex-direction:column; gap:8px; }
+.sf-deck{ display:flex; flex-direction:column; gap:8px;
+  max-height:0; overflow:hidden; transition:max-height .6s ease; }
+.sf-deckbox:hover .sf-deck{ max-height:1500px; }
 .sf-track{
   display:flex; align-items:center; gap:14px;
   border:1px solid var(--hair); border-left:3px solid var(--rust-dim);
